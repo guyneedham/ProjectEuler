@@ -13,13 +13,14 @@ class ThreeAndFive {
    */
   
   val toTen = (1 until 10).toList
+  // curried function
   private def divides(x: Int)(a: Int): Boolean =  x % a == 0 
-  
+  // two partially applied functions
   private def mulThree(x: Int) = divides(x)(3)
   private def mulFive(x: Int) = divides(x)(5)
-  
+  // filter a sequence and find its sum
   def mulThreeOrFive(xs: Seq[Int]) = xs filter ( x => mulThree(x) || mulFive(x) ) sum
-  
+  // assert syntax for in-line testing
   assert( (mulThreeOrFive( toTen) ) == 23 )
   
 }
