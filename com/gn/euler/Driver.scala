@@ -27,6 +27,26 @@ object Driver {
     
     println("Problem 4: "+largestPal)
     
+    val smallestMultiple = new SmallestMultiple
+    val smallMult = smallestMultiple.smallestMultiple(1 to 20)
+    
+    println("Problem 5: "+smallMult)
+    
+    val sumSq = new SumSquareDifference
+    val sumSqFirst100 = sumSq.sumSquareDifference(100)
+    
+    println("Problem 6: "+sumSqFirst100)
+    
+    val nthPr = new NthPrime
+    val OnethPr = nthPr.nthPrime(10001)
+    
+    println("Problem 7: "+OnethPr)
+    
+    val largeProd = new SeriesProduct
+    val thirteenth = largeProd.maxVal(13)
+    
+    println("Problem 8: "+thirteenth)
+    
   }
   
 }
