@@ -47,6 +47,16 @@ object Driver {
     
     println("Problem 8: "+thirteenth)
     
+    val pyth = new PythagoreanTriplet
+    val pythOneThou = pyth.pythagorean(1000)
+    
+    println("Problem 9: "+pythOneThou)
+    
+    val ps = new PrimeSummation
+    val sumTwoMillion = ps.sumPrimes(2000000)
+    
+    println("Problem 10: "+sumTwoMillion)
+    
   }
   
 }
