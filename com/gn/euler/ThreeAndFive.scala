@@ -21,6 +21,7 @@ class ThreeAndFive {
   // filter a sequence and find its sum
   def mulThreeOrFive(xs: Seq[Int]) = xs filter ( x => mulThree(x) || mulFive(x) ) sum
   // assert syntax for in-line testing
-  assert( (mulThreeOrFive( toTen) ) == 23 )
+  val test = mulThreeOrFive( toTen)               //> test  : Int = 23
+  assert( test == 23)
   
 }
