@@ -1,7 +1,13 @@
 package com.gn.euler
 
 import scala.annotation.tailrec
-
+/** A 2D matrix of Ints.
+ *  @constructor create a new Matrix
+ *  @param rows the rows of the matrix
+ *  {{{
+ *  val mat = makeMatrix(List(Array(1,2,3),Array(4,5,6),Array(7,8,9)))
+ *  }}}
+ */
 class Matrix(val rows: List[Array[Int]]) {
     val nrows = rows.size
     val ncols = rows(0).size
@@ -9,9 +15,14 @@ class Matrix(val rows: List[Array[Int]]) {
  
     val dims = (nrows, ncols)
  
+    /** Private constructor for the matrix.
+     *  @param rows the rows of the matrix
+     */
     private def makeMatrix(rows: List[Array[Int]]): Array[Array[Int]] = {
  
+      // the matrix object is a 2D array
       var matrix = Array.ofDim[Int](nrows, ncols)
+      // recurse through the lines, add each one to the matrix
       @tailrec
       def matrixMake(i: Int, rows: List[Array[Int]], matrix: Array[Array[Int]]): Array[Array[Int]] = rows match {
     
@@ -27,6 +38,15 @@ class Matrix(val rows: List[Array[Int]]) {
   
     def getColumn(index: Int): List[Int] = matrix.map{_(index)}.toList
     def getRow(index: Int): List[Int] = matrix(index).toList
+    
+    //find one diagonal run in the matrix, given a pair of coordinates
+    //only finds left-to-right diagonals
+    //returns the run found and the coordinates of each point
+    /** Find one left-to-right diagonal run in the matrix.
+     *  @param i Int, the i index of the start
+     *  @param j Int, the j index of the start
+     * 
+     */
     def getDiagonal(i: Int, j: Int): (List[Int], List[(Int, Int)]) = {
       val res = List[Int]()
       val vis = List[(Int, Int)]()
@@ -45,6 +65,10 @@ class Matrix(val rows: List[Array[Int]]) {
       visited
     }
     
+    // construct a matrix which is the reflection of this one
+    /** Find the reflection of this matrix.
+     * 
+     */
     def getReflection: Matrix = {
     
       val rows = for{i <- (0 until nrows).toList } yield getRow(i).reverse.toArray
@@ -52,17 +76,30 @@ class Matrix(val rows: List[Array[Int]]) {
     
     }
     
+    
+    /** Find all unique left-to-right diagonal runs in the matrix
+     * 
+     */
     def diagonalScan: List[List[Int]] = {
+      // start with all points and an empty list of results
       val startingPoints = getAllCoords
       val diags = List[List[Int]]()
       
+      //recurse through the starting points
+      @tailrec
       def inner(startingPoints: List[(Int, Int)], diags: List[List[Int]]): List[List[Int]] = startingPoints match {
-      
-        case Nil          => diags
+        // in the case that there are no points left, return results
+        case Nil          => diags 
+        // where there is a starting point
         case (i, j) :: xs => {
+                          // get the diagonal
                           val (search, searched) = getDiagonal(i,j)
+                          // remove all points on the diagonal from the starting points
+                          // this avoids searching twice
                           val toSearch = xs filterNot(searched.contains(_))
+                          // store results
                           val found = search +: diags
+                          // recurse
                           inner(toSearch, found)
                         }
       
@@ -72,6 +109,9 @@ class Matrix(val rows: List[Array[Int]]) {
     
     }
     
+    /** Find all (i,j) pairs in the matrix.
+     * 
+     */
     def getAllCoords: List[(Int, Int)] = {
       for ( x <- (0 until nrows).toList; y <- (0 until ncols).toList ) yield (x,y)
     }
