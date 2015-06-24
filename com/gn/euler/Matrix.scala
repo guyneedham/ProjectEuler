@@ -5,7 +5,7 @@ import scala.annotation.tailrec
  *  @constructor create a new Matrix
  *  @param rows the rows of the matrix
  *  {{{
- *  val mat = makeMatrix(List(Array(1,2,3),Array(4,5,6),Array(7,8,9)))
+ *  val mat = new Matrix(List(Array(1,2,3),Array(4,5,6),Array(7,8,9)))
  *  }}}
  */
 class Matrix(val rows: List[Array[Int]]) {
@@ -34,6 +34,16 @@ class Matrix(val rows: List[Array[Int]]) {
       }
  
       matrixMake(0, rows, matrix)
+    }
+    
+    
+    override def toString = {
+      
+      val rows = getAllRows
+      val mString = rows.map(_ mkString "\t" ) mkString "\n"
+      "\n"+mString
+      
+      
     }
   
     def getColumn(index: Int): List[Int] = matrix.map{_(index)}.toList
@@ -109,7 +119,7 @@ class Matrix(val rows: List[Array[Int]]) {
     
     }
     
-    /** Find all (i,j) pairs in the matrix.
+    /** Find the coordinates of all (i,j) pairs in the matrix.
      * 
      */
     def getAllCoords: List[(Int, Int)] = {
