@@ -6,6 +6,10 @@ import scala.annotation.tailrec
  *  @param rows the rows of the matrix
  *  {{{
  *  val mat = new Matrix(List(Array(1,2,3),Array(4,5,6),Array(7,8,9)))
+ *  //> mat  : com.gn.euler.Matrix = 
+ *  //| 1 2 3
+ *  //| 4 5 6
+ *  //| 7 8 9
  *  }}}
  */
 class Matrix(val rows: List[Array[Int]]) {
