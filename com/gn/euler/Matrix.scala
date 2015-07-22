@@ -15,7 +15,7 @@ import scala.annotation.tailrec
 class Matrix(val rows: List[Array[Int]]) {
     val nrows = rows.size
     val ncols = rows(0).size
-    val matrix = makeMatrix(rows)
+    var matrix = makeMatrix(rows)
  
     val dims = (nrows, ncols)
  
@@ -136,6 +136,18 @@ class Matrix(val rows: List[Array[Int]]) {
     
     def getAllRows: List[List[Int]] = {
       for ( x <- (0 until nrows).toList) yield getRow(x)
+    }
+    
+    def copy(rows: List[Array[Int]] = getAllRows.map(_.toArray) ) = new Matrix(rows)
+    
+    def transpose: Matrix = {
+      
+      val mt = matrix.transpose
+      //val allRows = getAllRows.map(_.toArray)
+      val m1 = this.copy() //(allRows)
+      m1.matrix = mt
+      m1
+      
     }
  
  }
