@@ -3,7 +3,7 @@ package com.gn.euler
 object Driver {
 
   def main(args: Array[String]) {
-    /*
+    
     val threeAndFive = new ThreeAndFive
     val toOneThou = (1 until 1000).toList
     val sumOneThou = threeAndFive.mulThreeOrFive( toOneThou )
@@ -56,7 +56,7 @@ object Driver {
     val sumTwoMillion = ps.sumPrimes(2000000)
     
     println("Problem 10: "+sumTwoMillion)
-    */
+    
     val gridP = new GridProduct
     val window = 4                                  
     val inputGrid = "08 02 22 97 38 15 00 40 00 75 04 05 07 78 52 12 50 77 91 08 "+
@@ -85,6 +85,12 @@ object Driver {
     val largestProduct = gridP.largestProductInAGrid(lines, window)
     
     println("Problem 11: "+largestProduct)
+    
+    val trigDiv = new TriangleNumberDivisors
+    val n = 500
+    val firstTrig = trigDiv.firstTriangleWithAtLeastNDivisors(n)
+    
+    println("Problem 12: "+firstTrig)
     
   }
   

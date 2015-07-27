@@ -12,7 +12,9 @@ import scala.annotation.tailrec
  *  //| 7 8 9
  *  }}}
  */
-class Matrix(val rows: List[Array[Int]]) {
+
+
+class Matrix[A](val rows: List[Array[A]])(implicit m: ClassManifest[A]) {
     val nrows = rows.size
     val ncols = rows(0).size
     var matrix = makeMatrix(rows)
@@ -22,13 +24,13 @@ class Matrix(val rows: List[Array[Int]]) {
     /** Private constructor for the matrix.
      *  @param rows the rows of the matrix
      */
-    private def makeMatrix(rows: List[Array[Int]]): Array[Array[Int]] = {
+    private def makeMatrix[A](rows: List[Array[A]])(implicit m: ClassManifest[A]): Array[Array[A]] = {
  
       // the matrix object is a 2D array
-      var matrix = Array.ofDim[Int](nrows, ncols)
+      var matrix = Array.ofDim[A](nrows, ncols)
       // recurse through the lines, add each one to the matrix
       @tailrec
-      def matrixMake(i: Int, rows: List[Array[Int]], matrix: Array[Array[Int]]): Array[Array[Int]] = rows match {
+      def matrixMake(i: Int, rows: List[Array[A]], matrix: Array[Array[A]]): Array[Array[A]] = rows match {
     
         case Nil     => matrix
     
@@ -50,8 +52,8 @@ class Matrix(val rows: List[Array[Int]]) {
       
     }
   
-    def getColumn(index: Int): List[Int] = matrix.map{_(index)}.toList
-    def getRow(index: Int): List[Int] = matrix(index).toList
+    def getColumn(index: Int): List[A] = matrix.map{_(index)}.toList
+    def getRow(index: Int): List[A] = matrix(index).toList
     
     //find one diagonal run in the matrix, given a pair of coordinates
     //only finds left-to-right diagonals
@@ -61,11 +63,11 @@ class Matrix(val rows: List[Array[Int]]) {
      *  @param j Int, the j index of the start
      * 
      */
-    def getDiagonal(i: Int, j: Int): (List[Int], List[(Int, Int)]) = {
-      val res = List[Int]()
+    def getDiagonal(i: Int, j: Int): (List[A], List[(Int, Int)]) = {
+      val res = List[A]()
       val vis = List[(Int, Int)]()
       @tailrec
-      def inner(i: Int, j: Int, visited: List[(Int, Int)], res: List[Int]): (List[Int], List[(Int, Int)]) = {
+      def inner(i: Int, j: Int, visited: List[(Int, Int)], res: List[A]): (List[A], List[(Int, Int)]) = {
         if(i < nrows & j < ncols) {
           val r1 = matrix(i)(j) +: res
           val v1 = (i,j) +: visited
@@ -83,7 +85,7 @@ class Matrix(val rows: List[Array[Int]]) {
     /** Find the reflection of this matrix.
      * 
      */
-    def getReflection: Matrix = {
+    def getReflection: Matrix[A] = {
     
       val rows = for{i <- (0 until nrows).toList } yield getRow(i).reverse.toArray
       new Matrix(rows)
@@ -94,14 +96,14 @@ class Matrix(val rows: List[Array[Int]]) {
     /** Find all unique left-to-right diagonal runs in the matrix
      * 
      */
-    def diagonalScan: List[List[Int]] = {
+    def diagonalScan: List[List[A]] = {
       // start with all points and an empty list of results
       val startingPoints = getAllCoords
-      val diags = List[List[Int]]()
+      val diags = List[List[A]]()
       
       //recurse through the starting points
       @tailrec
-      def inner(startingPoints: List[(Int, Int)], diags: List[List[Int]]): List[List[Int]] = startingPoints match {
+      def inner(startingPoints: List[(Int, Int)], diags: List[List[A]]): List[List[A]] = startingPoints match {
         // in the case that there are no points left, return results
         case Nil          => diags 
         // where there is a starting point
@@ -130,17 +132,17 @@ class Matrix(val rows: List[Array[Int]]) {
       for ( x <- (0 until nrows).toList; y <- (0 until ncols).toList ) yield (x,y)
     }
     
-    def getAllColumns: List[List[Int]] = {
+    def getAllColumns: List[List[A]] = {
       for ( y <- (0 until ncols).toList) yield getColumn(y)
     }
     
-    def getAllRows: List[List[Int]] = {
+    def getAllRows: List[List[A]] = {
       for ( x <- (0 until nrows).toList) yield getRow(x)
     }
     
-    def copy(rows: List[Array[Int]] = getAllRows.map(_.toArray) ) = new Matrix(rows)
+    def copy(rows: List[Array[A]] = getAllRows.map(_.toArray) ) = new Matrix(rows)
     
-    def transpose: Matrix = {
+    def transpose: Matrix[A] = {
       
       val mt = matrix.transpose
       //val allRows = getAllRows.map(_.toArray)
